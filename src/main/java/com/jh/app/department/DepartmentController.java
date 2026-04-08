@@ -20,7 +20,7 @@ public class DepartmentController {
 
 	@GetMapping("list")
 	// 리퀘스트 대신 인터페이스 모델 모델=jsp로 운반 해주는 객체, 생명주기는 리퀘스트와 같다
-	public ModelAndView list(ModelAndView mv) {
+	public ModelAndView list(ModelAndView mv) throws Exception {
 		List<DepartmentDTO> ar = departmentService.list();
 
 		// request와 비슷한 역할, Spring이 제공
@@ -31,9 +31,8 @@ public class DepartmentController {
 	}
 
 	@GetMapping("detail")
-	// 파라미터에서 num으로 오는걸 받기 위해 @RequestParam(name = "num") String num
-	public void detail(@RequestParam(name = "num") String num, Model model) {
-		DepartmentDTO departmentDTO = departmentService.detail(num);
+	public void detail(DepartmentDTO departmentDTO, Model model) throws Exception {
+		departmentDTO = departmentService.detail(departmentDTO);
 		model.addAttribute("d", departmentDTO);
 	}
 
@@ -42,7 +41,7 @@ public class DepartmentController {
 	}
 
 	@PostMapping("create")
-	public String create(DepartmentDTO departmentDTO) {
+	public String create(DepartmentDTO departmentDTO) throws Exception {
 
 		// 서비스에 리턴하는게 int 니까 선언
 		int result = departmentService.create(departmentDTO);
@@ -54,7 +53,7 @@ public class DepartmentController {
 	}
 
 	@PostMapping("delete")
-	public String delete(DepartmentDTO departmentDTO) {
+	public String delete(DepartmentDTO departmentDTO) throws Exception {
 
 		int result = departmentService.delete(departmentDTO);
 		System.out.println("희망값 : 1 , 실제값 : " + result);
@@ -63,14 +62,14 @@ public class DepartmentController {
 	}
 
 	@GetMapping("update")
-	public void update(DepartmentDTO departmentDTO, Model model) {
-		departmentDTO = departmentService.detail(departmentDTO.getDepartmentNo());
+	public void update(DepartmentDTO departmentDTO, Model model) throws Exception {
+		departmentDTO = departmentService.detail(departmentDTO);
 		model.addAttribute("d", departmentDTO);
 		// URL과 리턴 경로가 같으면 리턴 안써도 됨
 	}
 
 	@PostMapping("update")
-	public String update(DepartmentDTO departmentDTO) {
+	public String update(DepartmentDTO departmentDTO) throws Exception {
 
 		int result = departmentService.update(departmentDTO);
 
