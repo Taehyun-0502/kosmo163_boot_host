@@ -51,12 +51,28 @@ public class ProfessorController {
 		return "redirect:./list";
 	}
 
+	@PostMapping("delete")
 	public String delete(ProfessorDTO professorDTO) throws Exception {
 
 		int ressult = professorService.delete(professorDTO);
 
 		return "redirect:./list";
 
+	}
+
+	@GetMapping("update")
+	public void update(ProfessorDTO professorDTO, Model model) throws Exception {
+
+		professorDTO = professorService.detail(professorDTO);
+		model.addAttribute("d", professorDTO);
+
+	}
+
+	public String update(ProfessorDTO professorDTO) throws Exception {
+
+		int result = professorService.update(professorDTO);
+
+		return "redirect:./list";
 	}
 
 }
